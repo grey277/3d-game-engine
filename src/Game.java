@@ -13,8 +13,15 @@ public class Game {
         Vertex[] data = new Vertex[] {
                 new Vertex(new Vector3f(-1, -1, 0)),
                 new Vertex(new Vector3f(0, 1, 0)),
-                new Vertex(new Vector3f(1, -1, 0))};
-        mesh.addVertices(data);
+                new Vertex(new Vector3f(1, -1, 0)),
+                new Vertex(new Vector3f(0, -1, 1))};
+
+        int[] indices = new int[] { 0, 1, 3,
+                                    3, 1, 2,
+                                    2, 1, 0,
+                                    0, 2, 3};
+
+        mesh.addVertices(data, indices);
 
         shader.addVertexShader(ResourceLoader.loadShader("basicVertex.vs"));
         shader.addFragmentShader(ResourceLoader.loadShader("basicFragment.fs"));
@@ -46,7 +53,7 @@ public class Game {
         tmp += Time.getDelta();
         tmpAmount = (float)Math.sin(tmp);
         transform.setTranslation(tmpAmount, 0, 0);
-        transform.setRotation(0, 0, tmpAmount * 180);
+        transform.setRotation(0, tmpAmount * 180, tmpAmount * 180);
         transform.setScale(tmpAmount, tmpAmount, tmpAmount);
     }
 

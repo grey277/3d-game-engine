@@ -1,10 +1,22 @@
 import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
 public class Util {
     public static FloatBuffer createFloatBuffer(int size) {
         return BufferUtils.createFloatBuffer(size);
+    }
+
+    public static IntBuffer createIntBuffer(int size) {
+        return BufferUtils.createIntBuffer(size);
+    }
+
+    public static IntBuffer createFlippedBuffer(int... data) {
+        IntBuffer buffer = createIntBuffer(data.length);
+        buffer.put(data);
+        buffer.flip();
+        return buffer;
     }
 
     public static FloatBuffer createFlippedBuffer(Vertex[] data) {
