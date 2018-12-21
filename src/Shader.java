@@ -78,24 +78,28 @@ public class Shader {
         glAttachShader(program, shader);
     }
 
-    public void setUniformi(String uniformName, int value) {
-        glUniform1i(uniformsLocations.get(uniformName), value);
-    }
-
-    public void setUniformf(String uniformName, float value) {
+    private int getUniformLocation(String uniformName) {
         Integer uniformLocation = uniformsLocations.get(uniformName);
         if(uniformLocation == null) {
             System.err.println("Could not find uniform name: " + uniformName);
             System.exit(1);
         }
-        glUniform1f(uniformLocation, value);
+        return uniformLocation;
+    }
+
+    public void setUniformi(String uniformName, int value) {
+        glUniform1i(getUniformLocation(uniformName), value);
+    }
+
+    public void setUniformf(String uniformName, float value) {
+        glUniform1f(getUniformLocation(uniformName), value);
     }
 
     public void setUniform(String uniformName, Vector3f value) {
-        glUniform3f(uniformsLocations.get(uniformName), value.getX(), value.getY(), value.getZ());
+        glUniform3f(getUniformLocation(uniformName), value.getX(), value.getY(), value.getZ());
     }
 
     public void setUniform(String uniformName, Matrix4f value) {
-        glUniformMatrix4fv(uniformsLocations.get(uniformName), true, Util.createFlippedBuffer(value));
+        glUniformMatrix4fv(getUniformLocation(uniformName), true, Util.createFlippedBuffer(value));
     }
 }
