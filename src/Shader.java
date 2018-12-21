@@ -1,9 +1,13 @@
+import java.util.HashMap;
+
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL32.*;
 
 public class Shader {
 
     private int program;
+
+    private HashMap<String, Integer> uniformsLocations;
 
     public Shader() {
         program = glCreateProgram();
@@ -12,6 +16,7 @@ public class Shader {
             System.err.println("Shader create program failed");
             System.exit(1);
         }
+        uniformsLocations = new HashMap<>();
     }
 
     public void bind() {
@@ -28,6 +33,16 @@ public class Shader {
 
     public void addFragmentShader(String text) {
         addProgram(text, GL_FRAGMENT_SHADER);
+    }
+
+    public void addUniform(String uniformName) {
+        int uniformLocation = glGetUniformLocation(program, uniformName);
+        if(uniformLocation == -1) {
+            System.err.println("Could not find uniform " + uniformName);
+            System.exit(1);
+        }
+
+        uniformsLocations.put(uniformName, uniformLocation);
     }
 
     public void compileShader() {
@@ -61,5 +76,26 @@ public class Shader {
             System.exit(1);
         }
         glAttachShader(program, shader);
+    }
+
+    public void setUniformi(String uniformName, int value) {
+        glUniform1i(uniformsLocations.get(uniformName), value);
+    }
+
+    public void setUniformf(String uniformName, float value) {
+        Integer uniformLocation = uniformsLocations.get(uniformName);
+        if(uniformLocation == null) {
+            System.err.println("Could not find uniform name: " + uniformName);
+            System.exit(1);
+        }
+        glUniform1f(uniformLocation, value);
+    }
+
+    public void setUniform(String uniformName, Vector3f value) {
+        glUniform3f(uniformsLocations.get(uniformName), value.getX(), value.getY(), value.getZ());
+    }
+
+    public void setUniform(String uniformName, Matrix4f value) {
+        glUniformMatrix4fv(uniformsLocations.get(uniformName), true, Util.createFlippedBuffer(value));
     }
 }

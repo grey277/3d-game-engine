@@ -16,8 +16,6 @@ public class Mesh {
 
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
         glBufferData(GL_ARRAY_BUFFER, Util.createFlippedBuffer(data), GL_STATIC_DRAW);
-
-        this.exitOnGLError("Error in addVertices");
     }
 
     public void draw() {
@@ -29,18 +27,5 @@ public class Mesh {
         glDrawArrays(GL_TRIANGLES, 0, size);
 
         glDisableVertexAttribArray(0);
-
-        this.exitOnGLError("Error in draw");
     }
-
-    public void exitOnGLError(String errorMessage) {
-        int errorValue = glGetError();
-
-        if (errorValue != GL_NO_ERROR) {
-            System.err.println("ERROR - " + errorMessage);
-            System.exit(-1);
-        }
-    }
-
-
 }

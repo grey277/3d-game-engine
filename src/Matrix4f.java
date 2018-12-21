@@ -1,13 +1,13 @@
-public class Matrix4d {
+public class Matrix4f {
 
-    private double[][] m;
+    private float[][] m;
 
-    public Matrix4d()
+    public Matrix4f()
     {
-        m = new double[4][4];
+        m = new float[4][4];
     }
 
-    public Matrix4d initIdentity() {
+    public Matrix4f initIdentity() {
         for(int i = 0; i < 4; i++) {
             for(int j = 0; j < 4; j++) {
                 if(i == j) {
@@ -20,8 +20,8 @@ public class Matrix4d {
         return this;
     }
 
-    public Matrix4d mul(Matrix4d r) {
-        Matrix4d res = new Matrix4d();
+    public Matrix4f mul(Matrix4f r) {
+        Matrix4f res = new Matrix4f();
         for(int i = 0; i < 4; i++) {
             for(int j = 0; j < 4;j++) {
                 r.set(i, j, (m[i][0] * r.get(0, j) +
@@ -34,19 +34,19 @@ public class Matrix4d {
         return res;
     }
 
-    public double[][] getM() {
+    public float[][] getM() {
         return m;
     }
 
-    public void setM(double[][] m) {
+    public void setM(float[][] m) {
         this.m = m;
     }
 
-    public double get(int x, int y) {
+    public float get(int x, int y) {
         return m[x][y];
     }
 
-    public void set(int x, int y, double value) {
+    public void set(int x, int y, float value) {
         m[x][y] = value;
     }
 }
